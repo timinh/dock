@@ -1,0 +1,9 @@
+maildev:
+    image: djfarrelly/maildev
+    container_name: maildev
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports: 
+      - "1025:25"
+      - "1080:80"
+    networks:
+      - PROJECT_FOLDER

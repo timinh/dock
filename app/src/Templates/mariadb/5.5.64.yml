@@ -1,0 +1,14 @@
+db:
+    image: mariadb:5.5.64
+    container_name: db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: PROJECT_FOLDER
+      MYSQL_USER: PROJECT_FOLDER
+      MYSQL_PASSWORD: PROJECT_FOLDER
+    ports:
+      - "3306:3306"
+    networks:
+      - PROJECT_FOLDER
