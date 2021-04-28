@@ -1,0 +1,15 @@
+app:
+    image: thecodingmachine/php:7.2-v4-apache
+    container_name: app
+    volumes:
+      - ./:/var/www/html:rw
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: 1
+      PHP_EXTENSION_INTL: 1
+      PHP_EXTENSION_GD: 1
+      PHP_INI_MEMORY_LIMIT: "1G"
+    ports:
+      - "80:80"
+    networks:
+      - PROJECT_FOLDER

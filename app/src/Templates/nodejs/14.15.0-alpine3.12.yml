@@ -1,0 +1,14 @@
+front:
+    image: 'node:14.15.0-alpine3.12'
+    working_dir: /home/node/app
+    container_name: front
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm run watch'
+    volumes:
+      - ./:/home/node/app:rw
+    ports:
+      - "8080:3000"
+    networks:
+      - PROJECT_FOLDER
