@@ -25,6 +25,7 @@ class AddMakefileCommand extends BaseCommand
         $dockerContainer = '';
         $useSymfony      = false;
         $useNode         = false;
+        $nodeContainer   = '';
 
         $helper = $this->getHelper('question');
 
@@ -44,9 +45,12 @@ class AddMakefileCommand extends BaseCommand
         // utilisation nodejs
         $question = new ConfirmationQuestion('Souhaitez-vous ajouter les commandes pour NodeJs ? (Y/n)', true);
         $useNode = $helper->ask($input, $output, $question);
-
+        if ($useNode && $useDocker) {
+            $question = new Question('Quel est le nom du container pour nodejs ? (front)', 'front');
+            $nodeContainer = $helper->ask($input, $output, $question);
+        }
 
         // génération Makefile
-        $this->service->generateMakefile($useDocker, $dockerContainer, $useSymfony, $useNode);
+        $this->service->generateMakefile($useDocker, $dockerContainer, $useSymfony, $useNode, $nodeContainer);
     }
 }

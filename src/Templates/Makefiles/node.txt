@@ -1,3 +1,7 @@
 
 ## —— NodeJS 🟩 ———————————————————————————————————————————————————————————————
-## Pas encore de commande
+install-js: package-lock.json ## Installe les dépendances client(via npm)
+	$(NODE_CONSOLE) npm install
+
+build: ## Compile et minifie les css et js
+	$(NODE_CONSOLE) npm run build

@@ -3,9 +3,10 @@
 
 DOCKER_COMPOSE=@docker-compose
 DOCKER_COMPOSE_EXEC=@docker exec -it
-PHP_DOCKER_COMPOSE_EXEC=$(DOCKER_COMPOSE_EXEC) {{container_name}}
+PHP_DOCKER_COMPOSE_EXEC=$(DOCKER_COMPOSE_EXEC) {{php_container_name}}
 COMPOSER=$(PHP_DOCKER_COMPOSE_EXEC) composer
 SYMFONY_CONSOLE=$(PHP_DOCKER_COMPOSE_EXEC) bin/console
+NODE_CONSOLE=$(DOCKER_COMPOSE_EXEC) {{node_container_name}}
 
 ## —— Docker 🐳  ———————————————————————————————————————————————————————————————
 start:	## Lancer les containers docker
@@ -19,9 +20,12 @@ rm:	stop ## Supprimer les containers docker
 
 restart: rm start	## redémarrer les containers
 
-bash:	## Connexion au container {{container_name}}
+bash:	## Connexion au container {{php_container_name}}
 	$(PHP_DOCKER_COMPOSE_EXEC) bash
-
+	
+ps: ## Affiche les containers docker
+	@docker ps
+	
 {{symfony_commands}}
 
 {{node_commands}}
