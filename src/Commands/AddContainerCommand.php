@@ -45,9 +45,13 @@ class AddContainerCommand extends BaseCommand
     private function selectContainerVersion(InputInterface $input, OutputInterface $output, string $serviceType)
     {
         $availableVersions = $this->service->getConfigVersions($serviceType);
-        $helper = $this->getHelper('question');
-        $question = new ChoiceQuestion('Sélectionnez la version du container : ', $availableVersions, 0);
-        $selectedVersion = $helper->ask($input, $output, $question);
+        if (count($availableVersions) > 1) {
+            $helper = $this->getHelper('question');
+            $question = new ChoiceQuestion('Sélectionnez la version du container : ', $availableVersions, 0);
+            $selectedVersion = $helper->ask($input, $output, $question);
+        } else {
+            $selectedVersion = $availableVersions[0];
+        }
         // ajout du container
         $this->service->addService($serviceType . '/' . $selectedVersion . '.yml');
 
