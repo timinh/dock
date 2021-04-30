@@ -3,17 +3,16 @@
 namespace Timinh\Commands;
 
 use Symfony\Component\Console\Command\Command;
-use Timinh\Service\DockerService;
 
-class BaseContainerCommand extends Command
+class BaseCommand extends Command
 {
-    protected $dockerService;
+    protected $service;
     protected $description = '';
     protected $help = '';
 
-    public function __construct()
+    public function __construct(string $iService)
     {
-        $this->dockerService = new DockerService(getcwd());
+        $this->service = new $iService(getcwd());
         parent::__construct();
     }
 

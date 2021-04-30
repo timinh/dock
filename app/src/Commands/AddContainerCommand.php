@@ -8,9 +8,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class AddContainerCommand extends BaseContainerCommand
+class AddContainerCommand extends BaseCommand
 {
-    protected static $defaultName = 'add';
+    protected static $defaultName = 'add:container';
     protected $description = 'Ajout d\'un container à la config docker';
     protected $help = 'Ajoute un container à la config docker';
 
@@ -27,7 +27,7 @@ class AddContainerCommand extends BaseContainerCommand
         if ($helper->ask($input, $output, $question)) {
             $this->selectServiceType($input, $output);
         } else {
-            $this->dockerService->writeDockerComposeFile();
+            $this->service->writeDockerComposeFile();
             $output->writeln('Le fichier docker-compose.yml a bien été créé.');
         }
         return Command::SUCCESS;
@@ -35,7 +35,7 @@ class AddContainerCommand extends BaseContainerCommand
 
     private function selectServiceType(InputInterface $input, OutputInterface $output)
     {
-        $templates = $this->dockerService->getConfigTemplates();
+        $templates = $this->service->getConfigTemplates();
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion('Choisissez le type de container que vous souhaitez : ', $templates, 0);
         $serviceType = $helper->ask($input, $output, $question);
@@ -44,12 +44,12 @@ class AddContainerCommand extends BaseContainerCommand
 
     private function selectContainerVersion(InputInterface $input, OutputInterface $output, string $serviceType)
     {
-        $availableVersions = $this->dockerService->getConfigVersions($serviceType);
+        $availableVersions = $this->service->getConfigVersions($serviceType);
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion('Sélectionnez la version du container : ', $availableVersions, 0);
         $selectedVersion = $helper->ask($input, $output, $question);
         // ajout du container
-        $this->dockerService->addService($serviceType . '/' . $selectedVersion . '.yml');
+        $this->service->addService($serviceType . '/' . $selectedVersion . '.yml');
 
         $output->writeln($serviceType . ' a été ajouté à votre projet en version ' . $selectedVersion);
         $this->nextChoice($input, $output);
