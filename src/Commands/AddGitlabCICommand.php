@@ -26,7 +26,7 @@ class AddGitlabCICommand extends BaseCommand
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion('Sélectionnez la version de php à utiliser : ', $availableVersions, 0);
         $selectedVersion = $helper->ask($input, $output, $question);
-        // ajout du container
+
         $this->service->generateCi($serviceType . '/' . $selectedVersion . '.yml');
 
         $output->writeln('Votre fichier .gitlab-ci.yml a été généré avec ' . $selectedVersion . '.');
