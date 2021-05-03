@@ -18,7 +18,7 @@ console: ## Lance une commande symfony
 
 debug: ## Affiche les logs d'erreur (term=XXX pour chercher un terme dans les logs)
 ifdef term
-	$(DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log | grep -a --color=auto $(term)
+	$(PHP_DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log | grep -a --color=auto $(term)
 else
-	$(DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log
+	$(PHP_DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log
 endif
