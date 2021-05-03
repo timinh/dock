@@ -1,15 +1,4 @@
 ## —— Symfony 🎶 ———————————————————————————————————————————————————————————————
-vendor-install:	## Installation des vendors
-	$(COMPOSER) install
-
-vendor-update:	## Mise à jour des vendors
-	$(COMPOSER) update
-
-clean-vendor: cc-hard ## Suppression du répertoire vendor puis un réinstall
-	$(PHP_DOCKER_COMPOSE_EXEC) rm -Rf vendor
-	$(PHP_DOCKER_COMPOSE_EXEC) rm composer.lock
-	$(COMPOSER) install
-
 cc:	## Vider le cache
 	$(SYMFONY_CONSOLE) c:c
 
@@ -25,7 +14,7 @@ migrations: ## Mise à jour via migrations
 	$(SYMFONY_CONSOLE) d:m:m --no-interaction
 
 console: ## Lance une commande symfony
-	$(SYMFONY_CONSOLE)
+	$(SYMFONY_CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
 
 debug: ## Affiche les logs d'erreur (term=XXX pour chercher un terme dans les logs)
 ifdef term

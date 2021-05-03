@@ -27,6 +27,8 @@ bash:	## Connexion au container {{php_container_name}}
 	
 ps: ## Affiche les containers docker
 	@docker ps
+
+{{composer_commands}}
 	
 {{symfony_commands}}
 

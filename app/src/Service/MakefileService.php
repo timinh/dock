@@ -34,6 +34,10 @@ class MakefileService extends ConfigFileService implements IService
         $contentFile = $useDocker ? 'avec_docker.txt' : 'sans_docker.txt';
         $content = parent::getTemplateContent('Makefiles/' . $contentFile);
 
+        // installation par défaut des commandes composer
+        $composerContent = parent::getTemplateContent('Makefiles/composer.txt');
+        $content = str_replace('{{composer_commands}}', $composerContent, $content);
+
         $sfContent = $useSymfony ? parent::getTemplateContent('Makefiles/symfony.txt') : '';
         $sfEnv     = $useSymfony ? "APP_ENV := $$(grep APP_ENV= .env.local | cut -d '=' -f2-)" : "";
         $content  = str_replace('{{symfony_commands}}', $sfContent, $content);
@@ -48,7 +52,6 @@ class MakefileService extends ConfigFileService implements IService
         } else {
             $content = str_replace('{{elasticsearch_commands}}', '', $content);
         }
-
         parent::writeFile(str_replace(['{{php_container_name}}', '{{node_container_name}}', '{{elasticsearch_server}}', '{{symfony_env}}'], [$dockerContainer, $nodeContainer, $elasticsearchContainer, $sfEnv], $content));
         return true;
     }
