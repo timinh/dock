@@ -1,6 +1,6 @@
 # dock
 
-Permet de générer rapidement une structure de projet avec Docker.
+Permet de générer rapidement une structure de projet Php (Avec ou sans Docker).
 
 ### Commandes : 
 - php dock.php add:container => Ajoute un container (choix multiples)
