@@ -16,4 +16,4 @@ $p->buildFromDirectory('app/');
 $p->setDefaultStub('index.php', '/index.php');
 
 $p->compress(Phar::GZ);
-echo "Le fichier $pharFile a bien été créé";
+echo "Le fichier $pharFile a bien été créé\n";
