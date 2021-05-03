@@ -7,6 +7,8 @@ PHP_DOCKER_COMPOSE_EXEC=$(DOCKER_COMPOSE_EXEC) {{php_container_name}}
 COMPOSER=$(PHP_DOCKER_COMPOSE_EXEC) composer
 SYMFONY_CONSOLE=$(PHP_DOCKER_COMPOSE_EXEC) bin/console
 NODE_CONSOLE=$(DOCKER_COMPOSE_EXEC) {{node_container_name}}
+{{elasticsearch_server}}
+{{symfony_env}}
 
 ## —— Docker 🐳  ———————————————————————————————————————————————————————————————
 start:	## Lancer les containers docker
@@ -29,6 +31,8 @@ ps: ## Affiche les containers docker
 {{symfony_commands}}
 
 {{node_commands}}
+
+{{elasticsearch_commands}}
 
 ## —— Others 🛠️️ ———————————————————————————————————————————————————————————————
 help: ## Liste des commandes

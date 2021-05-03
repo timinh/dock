@@ -1,0 +1,14 @@
+## —— Elasticsearch 🔎 —————————————————————————————————————————————————————————
+list-index: ## Liste les indexes Elasticsearch (nom=XXX pour cherche un index en particulier)
+ifdef nom
+	@curl $(ELASTICSEARCH_HOST)/_cat/indices?v | grep $(nom)
+else
+	@curl $(ELASTICSEARCH_HOST)/_cat/indices?v
+endif
+
+count-index: ## Liste les indexes Elasticsearch (nom=XXX pour cherche un index en particulier)
+ifdef nom
+	@curl $(ELASTICSEARCH_HOST)/_cat/count/$(nom)?v
+else
+	@echo "Spécifiez un index en ajoutant nom=XXX"
+endif

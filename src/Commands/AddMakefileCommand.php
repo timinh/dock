@@ -21,18 +21,25 @@ class AddMakefileCommand extends BaseCommand
 
     public function selectDockerOrNot(InputInterface $input, OutputInterface $output)
     {
-        $useDocker       = false;
-        $dockerContainer = '';
-        $useSymfony      = false;
-        $useNode         = false;
-        $nodeContainer   = '';
+        $useDocker              = false;
+        $dockerContainer        = '';
+        $useSymfony             = false;
+        $useNode                = false;
+        $nodeContainer          = '';
+        $useElasticsearch       = false;
+        $elasticsearchContainer = '';
 
         $helper = $this->getHelper('question');
 
         // utilisation docker
         $dcInFolder = file_exists('./docker-compose.yml');
         $question = new ConfirmationQuestion('Souhaitez-vous utiliser docker ? (Y/n)', true);
-        $useDocker = $dcInFolder ? true : $helper->ask($input, $output, $question);
+        if ($dcInFolder) {
+            $useDocker = true;
+            $output->writeln('Le fichier \'docker-compose.yml\' a été détecté dans le dossier.');
+        } else {
+            $useDocker = $helper->ask($input, $output, $question);
+        }
         if ($useDocker) {
             $question = new Question('Quel est le nom du container de votre application ? (app)', 'app');
             $dockerContainer = $helper->ask($input, $output, $question);
@@ -50,7 +57,18 @@ class AddMakefileCommand extends BaseCommand
             $nodeContainer = $helper->ask($input, $output, $question);
         }
 
+        // utilisation elasticsearch
+        $question = new ConfirmationQuestion('Souhaitez-vous ajouter les commandes pour Elasticsearch ? (y/N)', false);
+        $useElasticsearch = $helper->ask($input, $output, $question);
+        if ($useElasticsearch) {
+            if ($useSymfony) {
+                $output->writeln('La configuration Elasticsearch sera lue dans votre fichier .env.local, pensez à ajouter la variable ELASTICSEARCH_HOST.');
+            } else {
+                $question = new Question('Quel est le nom du serveur(ou conteneur) pour elasticsearch ? (localhost:9200)', 'localhost:9200');
+                $elasticsearchContainer = $helper->ask($input, $output, $question);
+            }
+        }
         // génération Makefile
-        $this->service->generateMakefile($useDocker, $dockerContainer, $useSymfony, $useNode, $nodeContainer);
+        $this->service->generateMakefile($useDocker, $dockerContainer, $useSymfony, $useNode, $nodeContainer, $useElasticsearch, $elasticsearchContainer);
     }
 }

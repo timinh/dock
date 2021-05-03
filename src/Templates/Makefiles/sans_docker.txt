@@ -7,6 +7,12 @@ PHP_DOCKER_COMPOSE_EXEC=$(DOCKER_COMPOSE_EXEC)
 COMPOSER=$(PHP_DOCKER_COMPOSE_EXEC) composer
 SYMFONY_CONSOLE=$(PHP_DOCKER_COMPOSE_EXEC) bin/console
 NODE_CONSOLE=$(DOCKER_COMPOSE_EXEC)
+{{elasticsearch_server}}
+{{symfony_env}}
+
+## —— Serveur de dev 🖥️ ———————————————————————————————————————————————————————
+start:	## Démarrage du serveur
+	php -S localhost:8000 -t public/
 
 {{symfony_commands}}
 

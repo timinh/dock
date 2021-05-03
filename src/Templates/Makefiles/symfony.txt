@@ -1,4 +1,3 @@
-
 ## —— Symfony 🎶 ———————————————————————————————————————————————————————————————
 vendor-install:	## Installation des vendors
 	$(COMPOSER) install
@@ -27,3 +26,10 @@ migrations: ## Mise à jour via migrations
 
 console: ## Lance une commande symfony
 	$(SYMFONY_CONSOLE)
+
+debug: ## Affiche les logs d'erreur (term=XXX pour chercher un terme dans les logs)
+ifdef term
+	$(DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log | grep -a --color=auto $(term)
+else
+	$(DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log
+endif
