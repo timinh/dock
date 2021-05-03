@@ -22,3 +22,6 @@ ifdef term
 else
 	$(PHP_DOCKER_COMPOSE_EXEC) tail -f var/log/$(APP_ENV).log
 endif
+
+phpunit: ## Lance les tests unitaires
+	$(PHP_DOCKER_COMPOSE_EXEC) php bin/phpunit
