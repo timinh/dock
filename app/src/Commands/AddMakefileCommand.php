@@ -32,7 +32,7 @@ class AddMakefileCommand extends BaseCommand
         $helper = $this->getHelper('question');
 
         // utilisation docker
-        $dcInFolder = file_exists('./docker-compose.yml');
+        $dcInFolder = file_exists(realpath('./docker-compose.yml'));
         $question = new ConfirmationQuestion('Souhaitez-vous utiliser docker ? (Y/n)', true);
         if ($dcInFolder) {
             $useDocker = true;
