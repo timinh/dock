@@ -46,7 +46,7 @@ class MakefileService extends ConfigFileService implements IService
             $elasticsearchContent = parent::getTemplateContent('Makefiles/elasticsearch.txt');
             $content = str_replace('{{elasticsearch_commands}}', $elasticsearchContent, $content);
         } else {
-            $content = str_replace('{{elasticsearch_commands', '', $content);
+            $content = str_replace('{{elasticsearch_commands}}', '', $content);
         }
 
         parent::writeFile(str_replace(['{{php_container_name}}', '{{node_container_name}}', '{{elasticsearch_server}}', '{{symfony_env}}'], [$dockerContainer, $nodeContainer, $elasticsearchContainer, $sfEnv], $content));
