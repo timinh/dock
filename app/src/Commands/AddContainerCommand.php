@@ -22,6 +22,14 @@ class AddContainerCommand extends BaseCommand
 
     private function nextChoice(InputInterface $input, OutputInterface $output)
     {
+        $services = $this->service->getServices();
+        if (count($services) > 0) {
+            $services = array_keys($services);
+            $output->writeln("Services actuellement dans votre docker-compose.yaml : ");
+            foreach ($services as $s) {
+                $output->writeln(" - " . $s);
+            }
+        }
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Souhaitez-vous ajouter un container ? (Y/n)', true);
         if ($helper->ask($input, $output, $question)) {
